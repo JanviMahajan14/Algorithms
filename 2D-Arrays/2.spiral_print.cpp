@@ -16,7 +16,7 @@ int main(){
     int start_col = 0;
     int end_col = n-1;
 
-    while(start_row <= end_row && start_col < end_col){
+    while(start_row <= end_row && start_col <= end_col){
         for(int i=start_row, j=start_col; j<=end_col ;j++){
             cout << a[i][j] << " ";
         }
@@ -27,14 +27,19 @@ int main(){
         }
         end_col--;
 
-        for(int j=end_col, i=end_row; j>=start_col; j--){
-            cout << a[i][j] << " ";
+        // Conditions for avoiding repetions of elements in odd matrix 3*4
+        if(end_row > start_row){
+            for(int j=end_col, i=end_row; j>=start_col; j--){
+                cout << a[i][j] << " ";
+            }
+            end_row--;
         }
-        end_row--;
 
-        for(int i=end_row, j=start_col; i>=start_row; i--){
-            cout << a[i][j] << " ";
+        if(end_col > start_col){
+            for(int i=end_row, j=start_col; i>=start_row; i--){
+                cout << a[i][j] << " ";
+            }
+            start_col++;
         }
-        start_col++;
     }
 }
