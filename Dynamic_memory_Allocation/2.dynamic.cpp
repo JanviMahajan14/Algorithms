@@ -20,5 +20,6 @@ int main(){
     }
     delete [] a; 
     // a = new int[10];
-    // a stored in static memory can be overwritten.
+    // a stored in static memory can be overwritten by declarlation of a
+    // like char*a = new char;
 }

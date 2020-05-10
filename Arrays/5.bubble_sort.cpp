@@ -3,11 +3,11 @@
 using namespace std;
 
 // Passing fn as a parameter to another fn
-bool compare(int a , int b){
+bool compare(long long int a , long long int b){
     return a < b;
 }
 
-void bubble_sort(int a[], int n, bool(&cmp)(int a, int b)){
+void bubble_sort(long long int a[], int n, bool(&cmp)(long long int a, long long int b)){
     for(int i=n-1; i>=0; i--){
         for(int j=0; j<=i-1; j++){
             if(cmp(a[j], a[j+1])){
@@ -18,14 +18,14 @@ void bubble_sort(int a[], int n, bool(&cmp)(int a, int b)){
         }
     }
     for(int i=0; i<n; i++){
-        cout << a[i] << " ";
+        cout << a[i] << " " ;
     }
 }
 
 int main(){
     int n;
     cin >> n;
-    int a[n];
+    long long int a[n];
     for(int i=0; i<n; i++){
         cin >> a[i];
     }
