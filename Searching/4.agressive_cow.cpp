@@ -2,28 +2,28 @@
 #include <algorithm>
 using namespace std;
 
-bool cowsRakhPaye(int a[], int n, int cows, int mid){
+bool cowsRakhPaye(long long int a[], int n, int cows, long long int mid){
     int cnt = 1;
-    int current_cow = a[0];
+    long long int current_cow = a[0];
         for(int j=1; j<n; j++){
             if(a[j]-current_cow >= mid){
                 current_cow = a[j];
                 cnt++;
             }
-            if(cnt == cows){
-                return true;
-            }
         }
-    return false;
+    if(cnt < cows){
+        return false;
+    }
+    return true;
 }
 
-int place_cows(int a[], int n, int cows){
-    //Hypothetical Search space
-    int start = 0;
-    int end = a[n-1]-a[0];
-    int result;
+long long int place_cows(long long int a[], int n, int cows){
+    //Hypothetical Search space between the cows
+    long long int start = 0;
+    long long int end = a[n-1]-a[0];
+    long long int result;
     while(start <= end){
-        int mid = (start+end)/2;
+        long long int mid = (start+end)/2;
         if(cowsRakhPaye(a,n,cows,mid)){
             result = mid;
             start = mid+1;
@@ -40,14 +40,13 @@ int main(){
     // No of stalls
     int n;
     cin >> n;
-    int a[n];
+     // No of cows
+    int cows;
+    cin  >> cows;
+    long long int a[n];
     for(int i=0; i<n; i++){
         cin >> a[i];
     }
-    // Sort the indexes of stalls may be given unsorted
     sort(a,a+n);
-    // No of cows
-    int cows;
-    cin  >> cows;
     cout << place_cows(a,n,cows);
 }
