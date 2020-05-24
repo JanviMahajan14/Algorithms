@@ -1,7 +1,11 @@
 // finding a^b efficiently using recursion
+
+// we know a^b = a*(a^b-1)
+
 #include <iostream>
 using namespace std;
 
+// O(n)
 int powerup(int a, int b){
     if(b == 0){
         return 1;
@@ -11,6 +15,7 @@ int powerup(int a, int b){
     }
 }
 
+// O(logn): Solving two sub problems
 int fastpower(int a, int b){
     if(b == 0){
         return 1;

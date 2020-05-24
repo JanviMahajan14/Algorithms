@@ -9,10 +9,12 @@ bool sort_recursive(int a[],int start, int end){
     if(a[start] > a[start+1]){
         return false;
     }
-    else{
-        start++;
-    }
-    sort_recursive(a,start,end);
+    // Never do this just change the search space!
+    // else{
+    //     start++;
+    // }
+    sort_recursive(a,start+1,end);
+    // cout << start << " " << end << endl;
 }
 
 int main(){
