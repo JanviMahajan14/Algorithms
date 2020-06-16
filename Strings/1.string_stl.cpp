@@ -4,7 +4,8 @@
 #include <string.h>
 using namespace std;
 
-int main(){
+int main()
+{
     // ways of initialisation
     string s0;
     string s1("hello");
@@ -21,7 +22,8 @@ int main(){
     cout << s4 << endl;
 
     // empty
-    if(s0.empty()){
+    if (s0.empty())
+    {
         cout << "s0 is empty";
     }
 
@@ -46,21 +48,24 @@ int main(){
 
     //Remove substrings
     string sub = "apple";
-    s.erase(inx,sub.length());
+    s.erase(inx, sub.length());
     cout << s << endl;
 
     // Iteration methods over the strings
-    for(int i=0; i<s1.length(); i++){
+    for (int i = 0; i < s1.length(); i++)
+    {
         cout << s1[i] << ",";
     }
     cout << endl;
 
-    for(auto it=s1.begin(); it!=s1.end(); it++){
+    for (auto it = s1.begin(); it != s1.end(); it++)
+    {
         cout << *it << ":";
     }
     cout << endl;
 
-    for(char c:s1){
+    for (char c : s1)
+    {
         cout << c << "*";
     }
     cout << endl;
