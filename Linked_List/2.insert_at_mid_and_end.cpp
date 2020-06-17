@@ -189,7 +189,7 @@ node *mid_point(node *head)
         return head;
     }
 
-    node *fast = head;
+    node *fast = head->next;
     node *slow = head;
 
     while (fast != NULL && fast->next != NULL)
