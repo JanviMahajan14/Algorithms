@@ -148,7 +148,68 @@ int diameter(node *root)
     int op1 = h1 + h2;               //passes throught root
     int op2 = diameter(root->left);  //lies in left sub tree
     int op3 = diameter(root->right); // lies in right sub tree
-    return max(op1, op2, op3);
+    return max(op1, max(op2, op3));
+}
+
+// Optimised way of finding diameter --bottom up approach --- post order traversal
+class Pair
+{
+public:
+    int height;
+    int diameter;
+};
+
+Pair fastdiameter(node *root)
+{
+    Pair p;
+    if (root == NULL)
+    {
+        p.height = p.diameter = 0;
+        return p;
+    }
+
+    Pair left = fastdiameter(root->left);
+    Pair right = fastdiameter(root->right);
+
+    Pair res;
+    res.height = max(left.height, right.height) + 1;
+    res.diameter = max(left.height + right.height, max(left.diameter, right.diameter));
+    return res;
+}
+
+// Replacing parent node with sum of its all descandts(children)--top-down---O(n^2)
+node *replacebysum(node *root)
+{
+    if (root == NULL)
+    {
+        return NULL;
+    }
+    if (root->left == NULL && root->right == NULL)
+    {
+        return NULL; //when it's a leaf node
+    }
+    root->data = sum(root) - root->data;
+    replacebysum(root->left);
+    replacebysum(root->right);
+    return root;
+}
+
+// Bottom-up-approach--O(n)
+int fastreplacebySum(node *root)
+{
+    if (root == NULL)
+    {
+        return 0;
+    }
+    int leftSum = fastreplacebySum(root->left);
+    int rightSum = fastreplacebySum(root->right);
+    if (leftSum == 0 && rightSum == 0)
+    {
+        return root->data;
+    }
+    int temp = root->data; //trick
+    root->data = leftSum + rightSum;
+    return temp + root->data;
 }
 
 int main()
@@ -162,13 +223,17 @@ int main()
     // cout << endl;
     // cout << heightoftree(root);
     // cout << endl;
-    for (int i = 1; i <= heightoftree(root); i++)
-    {
-        printkthlevel(root, i);
-        cout << endl;
-    }
+    // for (int i = 1; i <= heightoftree(root); i++)
+    // {
+    //     printkthlevel(root, i);
+    //     cout << endl;
+    // }
     bfs(root);
     cout << endl;
-    cout << count(root) << endl;
-    cout << sum(root) << endl;
+    // cout << count(root) << endl;
+    // cout << sum(root) << endl;
+    // cout << fastdiameter(root).height << " " << fastdiameter(root).diameter << endl;
+    fastreplacebySum(root); //changed because root is in heap memory
+    bfs(root);
+    cout << endl;
 }
