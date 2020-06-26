@@ -1,5 +1,6 @@
 #include <iostream>
 #include <queue>
+#include <algorithm>
 using namespace std;
 
 class node
@@ -97,9 +98,21 @@ void bfs(node *root)
 {
     queue<node *> q;
     q.push(root);
+    q.push(NULL); //for adding a endl after each level
+
     while (!q.empty())
     {
         node *f = q.front();
+        if (f == NULL)
+        {
+            cout << endl;
+            q.pop();
+            if (!q.empty())
+            {
+                q.push(NULL);
+            }
+            continue;
+        }
         cout << f->data << " ";
         q.pop();
         if (f->left)
@@ -212,6 +225,26 @@ int fastreplacebySum(node *root)
     return temp + root->data;
 }
 
+// check if a height balanced tree
+pair<int, bool> heightBalanced(node *root)
+{
+    if (root == NULL)
+    {
+        return make_pair(0, true);
+    }
+    pair<int, bool> left = heightBalanced(root->left);
+    pair<int, bool> right = heightBalanced(root->right);
+    int diff = abs(left.first - right.first);
+    if (left.second == false || right.second == false)
+    {
+        return make_pair(diff, false);
+    }
+    if (diff <= 1)
+        return make_pair(max(left.first, right.first) + 1, true);
+    else
+        return make_pair(max(left.first, right.first) + 1, false);
+}
+
 int main()
 {
     node *root = buildnode();
@@ -229,11 +262,11 @@ int main()
     //     cout << endl;
     // }
     bfs(root);
-    cout << endl;
     // cout << count(root) << endl;
     // cout << sum(root) << endl;
     // cout << fastdiameter(root).height << " " << fastdiameter(root).diameter << endl;
-    fastreplacebySum(root); //changed because root is in heap memory
-    bfs(root);
-    cout << endl;
+    // fastreplacebySum(root); //changed because root is in heap memory
+    // bfs(root);
+    // cout << endl;
+    // cout << heightBalanced(root).second << endl;
 }
