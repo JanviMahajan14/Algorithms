@@ -117,7 +117,8 @@ int main()
     int in[] = {3, 2, 8, 4, 1, 6, 7, 5};
     node *root = createtreeInPre(pre, in, 0, 7);
     bfs(root);
-    int current_level = 1;
-    int max_level = 0;
-    printrightview(root, current_level, max_level);
+
+    // int current_level = 1;
+    // int max_level = 0;
+    // printrightview(root, current_level, max_level);
 }

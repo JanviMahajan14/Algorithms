@@ -245,6 +245,36 @@ pair<int, bool> heightBalanced(node *root)
         return make_pair(max(left.first, right.first) + 1, false);
 }
 
+node *lca(node *root, int a, int b)
+{
+    if (root == NULL)
+    {
+        return NULL;
+    }
+
+    if (root->data == a || root->data == b)
+    {
+        return root;
+    }
+
+    node *left = lca(root->left, a, b);
+    node *right = lca(root->right, a, b);
+
+    if (left != NULL && right != NULL)
+    {
+        return root;
+    }
+
+    if (left == NULL)
+    {
+        return right;
+    }
+    else if (right == NULL)
+    {
+        return left;
+    }
+}
+
 int main()
 {
     node *root = buildnode();
@@ -269,4 +299,7 @@ int main()
     // bfs(root);
     // cout << endl;
     // cout << heightBalanced(root).second << endl;
+
+    int a = 6, b = 7;
+    cout << lca(root, a, b)->data << endl;
 }
