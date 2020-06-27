@@ -17,6 +17,20 @@ public:
     }
 };
 
+node *buildnode()
+{
+    int d;
+    cin >> d;
+    if (d == -1)
+    {
+        return NULL;
+    }
+    node *n = new node(d);
+    n->left = buildnode();
+    n->right = buildnode();
+    return n;
+}
+
 node *build_balanced_tree(int a[], int start, int end)
 {
     if (start > end)
@@ -75,6 +89,86 @@ void printrightview(node *root, int cur_level, int &max_level)
     return;
 }
 
+void printkthlevel(node *root, int k)
+{
+    if (root == NULL)
+    {
+        return;
+    }
+    if (k == 0)
+    {
+        cout << root->data << " ";
+        return;
+    }
+    printkthlevel(root->left, k - 1);
+    printkthlevel(root->right, k - 1);
+}
+
+// finding all the ancestors of a given node
+int printansestors(node *root, int data)
+{
+    if (root == NULL)
+    {
+        return 0;
+    }
+    if (root->data == data)
+    {
+        cout << root->data << " ";
+        return 1;
+    }
+    int left = printansestors(root->left, data);
+    if (left == 1)
+    {
+        cout << root->data << " ";
+        return 1;
+    }
+    int right = printansestors(root->right, data);
+    if (right == 1)
+    {
+        cout << root->data << " ";
+        return 1;
+    }
+}
+
+int printallnodesfromk(node *root, node *target, int k)
+{
+    if (root == NULL)
+    {
+        return -1;
+    }
+    if (root == target)
+    {
+        printkthlevel(root, k);
+        return 0; //distance of target from left/right child of the root
+    }
+    int left = printallnodesfromk(root->left, target, k);
+    int right = printallnodesfromk(root->right, target, k);
+
+    if (left >= 0)
+    {
+        if (k - (left + 1) == 0) //if root itself is a reqd node---corner-case
+        {
+            cout << root->data << " ";
+            return -1;
+        }
+        printkthlevel(root->right, k - left - 2);
+        return left + 1;
+    }
+    else if (right >= 0)
+    {
+        if (k - (right + 1) == 0)
+        {
+            cout << root->data << " ";
+            return -1;
+        }
+        printkthlevel(root->left, k - right - 2);
+        return right + 1;
+    }
+
+    // node not present anywhere
+    return -1;
+}
+
 void bfs(node *root)
 {
     queue<node *> q;
@@ -113,12 +207,17 @@ int main()
     // node *root = build_balanced_tree(a, 0, 6);
     // bfs(root);
 
-    int pre[] = {1, 2, 3, 4, 8, 5, 6, 7};
-    int in[] = {3, 2, 8, 4, 1, 6, 7, 5};
-    node *root = createtreeInPre(pre, in, 0, 7);
-    bfs(root);
+    // int pre[] = {1, 2, 3, 4, 8, 5, 6, 7};
+    // int in[] = {3, 2, 8, 4, 1, 6, 7, 5};
+    // node *root = createtreeInPre(pre, in, 0, 7);
+    // bfs(root);
 
     // int current_level = 1;
     // int max_level = 0;
     // printrightview(root, current_level, max_level);
+
+    node *root = buildnode();
+    bfs(root);
+    cout << endl;
+    printallnodesfromk(root, root->left->left, 3);
 }
