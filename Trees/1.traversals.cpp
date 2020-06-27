@@ -275,6 +275,46 @@ node *lca(node *root, int a, int b)
     }
 }
 
+// Finding shortest distance between nodes of binary tree
+int getlevel(node *root, int a)
+{
+    if (root == NULL)
+    {
+        return -1;
+    }
+
+    if (root->data == a)
+    {
+        return 0;
+    }
+
+    int left = getlevel(root->left, a);
+    int right = getlevel(root->right, a);
+
+    if (left == -1 && right == -1)
+    {
+        return -1;
+    }
+
+    if (left != -1)
+    {
+        return left + 1;
+    }
+    return right + 1;
+}
+
+int shortdis(node *root, int a, int b)
+{
+    if (root == NULL)
+    {
+        return -1;
+    }
+    int levela = getlevel(root, a);
+    int levelb = getlevel(root, b);
+    int levellca = getlevel(root, lca(root, a, b)->data);
+    return levela + levelb - (2 * (levellca));
+}
+
 int main()
 {
     node *root = buildnode();
@@ -300,6 +340,8 @@ int main()
     // cout << endl;
     // cout << heightBalanced(root).second << endl;
 
-    int a = 6, b = 7;
-    cout << lca(root, a, b)->data << endl;
+    // int a = 6, b = 7;
+    // cout << lca(root, a, b)->data << endl;
+
+    cout << shortdis(root, 10, 3);
 }

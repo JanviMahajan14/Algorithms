@@ -130,6 +130,7 @@ int printansestors(node *root, int data)
     }
 }
 
+// Finding all the nodes at distance K from the target node
 int printallnodesfromk(node *root, node *target, int k)
 {
     if (root == NULL)
@@ -167,6 +168,43 @@ int printallnodesfromk(node *root, node *target, int k)
 
     // node not present anywhere
     return -1;
+}
+
+// max sum path from any node to any other node
+class Pair
+{
+public:
+    int totalPathSum;
+    int maxBranchSum;
+    Pair()
+    {
+        totalPathSum = 0;
+        maxBranchSum = 0;
+    }
+};
+
+Pair maxSumPathBtwNodes(node *root)
+{
+    Pair p;
+    if (root == NULL)
+    {
+        return p;
+    }
+
+    Pair leftSubTree = maxSumPathBtwNodes(root->left);
+    Pair rightSubTree = maxSumPathBtwNodes(root->right);
+
+    int op1 = root->data;
+    int op2 = root->data + leftSubTree.maxBranchSum;
+    int op3 = root->data + rightSubTree.maxBranchSum;
+    int op4 = root->data + leftSubTree.maxBranchSum + rightSubTree.maxBranchSum;
+
+    int maxSumPassThroughRoot = max(op1, max(op2, max(op3, op4)));
+    int maxBranchSumfromRoot = max(leftSubTree.maxBranchSum, max(rightSubTree.maxBranchSum, 0)) + root->data;
+
+    p.maxBranchSum = maxBranchSumfromRoot;
+    p.totalPathSum = max(maxSumPassThroughRoot, max(leftSubTree.totalPathSum, rightSubTree.totalPathSum));
+    return p;
 }
 
 void bfs(node *root)
@@ -219,5 +257,6 @@ int main()
     node *root = buildnode();
     bfs(root);
     cout << endl;
-    printallnodesfromk(root, root->left->left, 3);
+    // printallnodesfromk(root, root->left->left, 3);
+    cout << maxSumPathBtwNodes(root).totalPathSum << endl;
 }
