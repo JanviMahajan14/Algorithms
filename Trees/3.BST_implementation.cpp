@@ -144,20 +144,87 @@ void bfs(node *root)
     }
 }
 
-// bool isBST(node *root, int min = INT_MIN, int max = INT_MAX)
-// {
-//     if (root == NULL)
-//     {
-//         return true;
-//     }
+bool isBST(node *root, int min = INT_MIN, int max = INT_MAX)
+{
+    if (root == NULL)
+    {
+        return true;
+    }
 
-//     if (max <= root->data && min >= root->data && isBST(root->left, min, root->data) && isBST(root->right, root->data, max))
-//     {
-//         return true;
-//     }
+    if (root->data < max && root->data > min)
+    {
+        bool left = isBST(root->left, min, root->data);
+        bool right = isBST(root->right, root->data, max);
 
-//     return false;
-// }
+        if (left && right)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+class LinkedList
+{
+public:
+    node *head;
+    node *tail;
+
+    LinkedList()
+    {
+        head = NULL;
+        tail = NULL;
+    }
+};
+
+LinkedList flattenBST(node *root)
+{
+    LinkedList l;
+    if (root == NULL)
+    {
+        l.head = l.tail = NULL;
+        return l;
+    }
+
+    LinkedList left = flattenBST(root->left);
+    LinkedList right = flattenBST(root->right);
+
+    // got no ll from left and right
+    if (left.head == NULL && right.head == NULL)
+    {
+        l.head = l.tail = root;
+        return l;
+    }
+
+    // got a linked list from right but not from left
+    if (left.head == NULL && right.head != NULL)
+    {
+        root->right = right.head;
+        l.head = root;
+        l.tail = right.tail;
+        return l;
+    }
+
+    // got a ll from left but no from right
+    if (left.head != NULL && right.head == NULL)
+    {
+        left.tail->right = root;
+        l.head = left.head;
+        l.tail = root;
+        return l;
+    }
+
+    // got a ll from both left and right
+    if (left.head != NULL && right.head != NULL)
+    {
+        left.tail->right = root;
+        root->right = right.head;
+        l.head = left.head;
+        l.tail = right.tail;
+        return l;
+    }
+}
 
 int main()
 {
@@ -177,5 +244,13 @@ int main()
     // deleteInBST(root, 7);
     // cout << endl;
     // bfs(root);
+
     // cout << "check bst " << isBST(root);
+
+    node *head = flattenBST(root).head;
+    while (head != NULL)
+    {
+        cout << head->data << "->";
+        head = head->right;
+    }
 }
