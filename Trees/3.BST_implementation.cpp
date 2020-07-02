@@ -112,6 +112,23 @@ node *deleteInBST(node *root, int data)
     }
 }
 
+// catalan series
+// int numOfBST(int n)
+// {
+//     static int res = 0;
+//     if (n == 0)
+//     {
+//         return 1;
+//     }
+
+//     for (int i = 1; i <= n; i++)
+//     {
+//         res = res + numOfBST(n) * numOfBST(n - i);
+//     }
+
+//     return res;
+// }
+
 void bfs(node *root)
 {
     queue<node *> q;
@@ -253,4 +270,6 @@ int main()
         cout << head->data << "->";
         head = head->right;
     }
+
+    // cout << numOfBST(2);
 }
