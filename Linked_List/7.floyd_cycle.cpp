@@ -18,7 +18,7 @@ bool floyd_cycle(node *head)
 {
     node *fast = head;
     node *slow = head;
-    while (head != NULL && head->next != NULL)
+    while (fast != NULL && fast->next != NULL && slow != NULL)
     {
         fast = fast->next->next;
         slow = slow->next;
@@ -36,7 +36,7 @@ void breakcycle(node *head)
 {
     node *fast = head;
     node *slow = head;
-    while (head != NULL && head->next != NULL)
+    while (fast != NULL && fast->next != NULL && slow != NULL)
     {
         fast = fast->next->next;
         slow = slow->next;

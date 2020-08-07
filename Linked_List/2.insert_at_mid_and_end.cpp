@@ -167,7 +167,7 @@ void reverse(node *&head)
     head = prev;
 }
 
-// Very important
+// Very important: if we pass by ref then problem during backtrack so return head to main
 node *recursive_reverse(node *head)
 {
     // Either we have no node or we want to iterate
@@ -218,6 +218,39 @@ node *k_node_from_end(node *head, int k)
     return slow;
 }
 
+node *reverse_in_k_groups(node *head, int k)
+{
+    node *prev = NULL;
+    node *curr = NULL;
+
+    while (head != NULL)
+    {
+        int key = k;
+        while (key--)
+        {
+            insertAtHead(curr, head->data);
+            head = head->next;
+        }
+
+        if (prev == NULL)
+        {
+            prev = curr;
+        }
+        else
+        {
+            node *temp = prev;
+            while (temp->next != NULL)
+            {
+                temp = temp->next;
+            }
+            temp->next = curr;
+        }
+        curr = NULL;
+    }
+
+    return prev;
+}
+
 void print(node *head)
 {
     while (head != NULL)
@@ -253,4 +286,15 @@ int main()
     cout << ans->data;
     // node *n = k_node_from_end(head, 3);
     // cout << n->data << " ";
+    insertAtHead(head, 6);
+    insertAtHead(head, 5);
+    insertAtHead(head, 4);
+    insertAtHead(head, 3);
+    insertAtHead(head, 2);
+    insertAtHead(head, 1);
+    print(head);
+    cout << endl;
+    node *headnew = reverse_in_k_groups(head, 3);
+    print(headnew);
+    cout << endl;
 }

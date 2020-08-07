@@ -33,6 +33,34 @@ void insertAtHead(node *&head, int data)
     head = n;
 }
 
+// void isCircular(node *&head)
+// {
+
+//     node *temp;
+//     int flag;
+//     while (head->next != NULL)
+//     {
+//         temp = head->next;
+//         while (temp != NULL)
+//         {
+//             if (temp->data == head->data)
+//             {
+//                 node *n = head;
+//                 head = head->next;
+//                 delete n;
+//                 break;
+//             }
+//             temp = temp->next;
+//             flag = 0;
+//         }
+
+//         if (temp == NULL || flag == 0)
+//         {
+//             break;
+//         }
+//     }
+// }
+
 void deleteAtHead(node *&head)
 {
     node *temp = head;
@@ -78,14 +106,22 @@ void print(node *head)
 int main()
 {
     node *head = NULL;
-    insertAtHead(head, 2);
-    insertAtHead(head, 3);
-    insertAtHead(head, 4);
-    insertAtHead(head, 5);
-    insertAtHead(head, 6);
-    insertAtHead(head, 8);
-    deleteNode(head, 2);
-    deleteNode(head, 0);
-    deleteNode(head, 3);
+    // insertAtHead(head, 2);
+    // insertAtHead(head, 3);
+    // insertAtHead(head, 4);
+    // insertAtHead(head, 5);
+    // insertAtHead(head, 6);
+    // insertAtHead(head, 8);
+    // deleteNode(head, 2);
+    // deleteNode(head, 0);
+    // deleteNode(head, 3);
+    int v;
+    cin >> v;
+    while (v != -1)
+    {
+        insertAtHead(head, v);
+        cin >> v;
+    }
+    // isCircular(head);
     print(head);
 }
