@@ -3,16 +3,11 @@
 using namespace std;
 
 bool CanNumberPlaced(int sudoku[][9], int n, int i, int j, int k){
-    // Along the row
-    for(int col=0; col<j; col++){
-        if(sudoku[i][col]==k){
-            return false;
-        }
-    }
-
-    // Along the col
-    for(int row=0; row<i; row++){
-        if(sudoku[row][j]==k){
+    // Along the row and col
+      for (int x = 0; x < n; x++)
+    {
+        if (sudoku[x][j] == k || sudoku[i][x]==k)
+        {
             return false;
         }
     }
