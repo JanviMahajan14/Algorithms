@@ -20,9 +20,9 @@ int main()
     //index of largest first k elements
     for (i = 0; i < k; i++)
     {
-        while (!Q.empty() && a[i] > a[Q.front()])
+        while (!Q.empty() && a[i] > a[Q.back()])
         {
-            Q.pop_front();
+            Q.pop_back(); //Start removing from back always:--TC fail
         }
         Q.push_back(i);
     }
@@ -39,9 +39,9 @@ int main()
         }
 
         // remove the elements which are smaller in window - not reqd
-        while (!Q.empty() && a[Q.front()] < a[i])
+        while (!Q.empty() && a[Q.back()] < a[i]) //Start removing from back always:--TC fail
         {
-            Q.pop_front();
+            Q.pop_back();
         }
         Q.push_back(i);
     }
