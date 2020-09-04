@@ -10,7 +10,7 @@ void insertAtBottom(stack<int> &s, int top)
         return;
     }
     int x = s.top();
-    s.top();
+    s.pop();
     insertAtBottom(s, top);
     s.push(x);
 }
