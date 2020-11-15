@@ -38,6 +38,8 @@ public:
 
 int main()
 {
+    // Stack<int> t; in case we want stack of integers just create template class
+    // Stack<Books>x; in case of stack of books, we can define books
     Stack<char, char> s;
     for (int i = 65; i <= 70; i++)
     {
