@@ -60,6 +60,7 @@ void del(Node *&head, Node *&tail, char ch, unordered_map<char, Node *> &m)
     n->prev->next = n->next;
     n->next->prev = n->prev;
     n->next = NULL;
+    n->prev = NULL;
     m[ch] = NULL;
     delete n;
 }
@@ -82,7 +83,7 @@ int main()
             if (!m.count(ch))
             {
                 insert(head, tail, ch);
-                m[ch] = tail;
+                m[ch] = tail; // Inserting in hashmap
                 cout << head->data << " ";
             }
             else if (m[ch] != NULL)
