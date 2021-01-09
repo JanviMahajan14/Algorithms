@@ -239,6 +239,27 @@ void bfs(node *root)
     }
 }
 
+node *construct_special_tree(int pre[], char preLN[], int &i, int size)
+{
+    if (i == size)
+        return NULL;
+
+    if (preLN[i] == 'N')
+    {
+        node *root = new node(pre[i]);
+        i++;
+        root->left = construct_special_tree(pre, preLN, i, size);
+        root->right = construct_special_tree(pre, preLN, i, size);
+        return root;
+    }
+    else
+    {
+        node *root = new node(pre[i]);
+        i++;
+        return root;
+    }
+}
+
 int main()
 {
     // int a[] = {1, 2, 3, 4, 5, 6, 7};
@@ -259,4 +280,22 @@ int main()
     cout << endl;
     // printallnodesfromk(root, root->left->left, 3);
     cout << maxSumPathBtwNodes(root).totalPathSum << endl;
+
+    // Construct a special tree from given preorder traversal----SOURCE GFG
+    int pre[] = {10,
+                 30,
+                 20,
+                 5,
+                 15};
+
+    char preLN[] = {'N',
+                    'N',
+                    'L',
+                    'L',
+                    'L'
+
+    };
+    int i = 0;
+    node *root = construct_special_tree(pre, preLN, i, 5);
+    bfs(root);
 }

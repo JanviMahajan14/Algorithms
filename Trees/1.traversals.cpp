@@ -1,5 +1,6 @@
 #include <iostream>
 #include <queue>
+#include <stack>
 #include <algorithm>
 using namespace std;
 
@@ -52,6 +53,183 @@ void printIn(node *root)
     printIn(root->left);
     cout << root->data << " ";
     printIn(root->right);
+}
+
+// Inorder traversal without recursion using stack
+void inorder(node *root)
+{
+    if (root == NULL)
+    {
+        return;
+    }
+
+    stack<node *> s;
+    s.push(root);
+
+    while (!s.empty())
+    {
+        if (root)
+        {
+            root = root->left;
+            if (root)
+                s.push(root);
+        }
+        else
+        {
+            node *top = s.top();
+            s.pop();
+            cout << top->data << " ";
+            root = top->right;
+            if (root)
+                s.push(root);
+        }
+    }
+}
+
+// Morris inorder traversal---Without recursion and without stack
+void moris(node *root)
+{
+    if (root == NULL)
+    {
+        return;
+    }
+
+    while (root != NULL)
+    {
+        if (!root->left) //if no left child
+        {
+            cout << root->data << " ";
+            root = root->right;
+        }
+        else //find the predecessor of root
+        {
+            node *curr = root;
+            root = root->left;
+            while (root->right != NULL && root->right != curr)
+            {
+                root = root->right;
+            }
+
+            if (root->right == NULL) // if predessor visited for 1st time
+            {
+                root->right = curr;
+                root = curr->left;
+            }
+            else if (root->right == curr) // if predessor is already visted
+            {
+                root->right = NULL;
+                cout << curr->data << " ";
+                root = curr->right;
+            }
+        }
+    }
+}
+
+void moris_preorder(node *root)
+{
+    if (root == NULL)
+    {
+        return;
+    }
+
+    while (root != NULL)
+    {
+        cout << root->data << " ";
+
+        if (root && !root->left)
+        {
+            root = root->right;
+        }
+        else
+        {
+            node *curr = root;
+            root = root->left;
+            while (root->right != NULL && root->right != curr->right)
+            {
+                root = root->right;
+            }
+            if (root->right == NULL)
+            {
+                root->right = curr->right;
+                root = curr->left;
+            }
+            else if (root->right == curr->right)
+            {
+                root->right = NULL;
+                root = curr->right;
+            }
+        }
+    }
+}
+
+// Iterative postorder traversal using two stacks
+void post(node *root)
+{
+    if (root == NULL)
+    {
+        return;
+    }
+
+    stack<node *> s1; //contains left and right child
+    stack<node *> s2; // contains the final result
+    s1.push(root);
+
+    while (!s1.empty())
+    {
+        node *top = s1.top();
+        s1.pop();
+        s2.push(top);
+        if (top->left)
+        {
+            s1.push(top->left);
+        }
+        if (top->right)
+        {
+            s1.push(top->right);
+        }
+    }
+
+    // Printing the result stored in s2
+    while (!s2.empty())
+    {
+        cout << s2.top()->data << " ";
+        s2.pop();
+    }
+}
+
+void post_one_stack(node *root)
+{
+    if (root == NULL)
+    {
+        return;
+    }
+
+    stack<node *> s;
+    node *prev = NULL;
+    s.push(root);
+    while (!s.empty())
+    {
+        if (root && root->left)
+        {
+            root = root->left;
+            s.push(root);
+        }
+        else
+        {
+            node *top = s.top();
+            if (top->right && top->right != prev)
+            {
+                root = top->right;
+                s.push(root);
+            }
+            else
+            {
+                cout << top->data << " ";
+                prev = top;
+                s.pop();
+            }
+        }
+    }
 }
 
 void printpost(node *root)
@@ -331,7 +509,11 @@ int main()
     //     printkthlevel(root, i);
     //     cout << endl;
     // }
-    bfs(root);
+    // inorder(root);
+    // cout << endl;
+    // moris_preorder(root);
+    post_one_stack(root);
+    // bfs(root);
     // cout << count(root) << endl;
     // cout << sum(root) << endl;
     // cout << fastdiameter(root).height << " " << fastdiameter(root).diameter << endl;
@@ -343,5 +525,5 @@ int main()
     // int a = 6, b = 7;
     // cout << lca(root, a, b)->data << endl;
 
-    cout << shortdis(root, 10, 3);
+    // cout << shortdis(root, 10, 3);
 }
