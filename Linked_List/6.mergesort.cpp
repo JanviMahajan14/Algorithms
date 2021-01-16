@@ -30,7 +30,7 @@ node *mid_point(node *head)
         return head;
     }
 
-    node *fast = head->next;
+    node *fast = head->next; //IMP because we want to return mid point M1
     node *slow = head;
 
     while (fast != NULL && fast->next != NULL)

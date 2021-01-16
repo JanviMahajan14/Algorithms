@@ -23,7 +23,7 @@ int main()
     {
         if (s.top().second > a[i])
         {
-            res[i] = 1;
+            res[i] = i - s.top().first;
             s.push(make_pair(i, a[i]));
         }
         else
