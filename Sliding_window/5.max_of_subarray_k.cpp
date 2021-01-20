@@ -1,3 +1,4 @@
+// Alt approach to prev qs
 #include <iostream>
 #include <deque>
 using namespace std;
@@ -45,4 +46,6 @@ int main()
         }
         Q.push_back(i);
     }
+
+    cout << a[Q.front()] << " ";
 }

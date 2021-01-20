@@ -28,3 +28,61 @@ void next_greater(int arr[], int n)
         s.push(arr[i]);
     }
 }
+
+// In case of circular array------Just follow the same above approach. But some elements
+// may have incorrect answers. So do 2 traversals i.e one more starting from the end
+int main()
+{
+    stack<int> s;
+    int n;
+    cin >> n;
+    int a[n];
+    int res[n];
+    for (int i = 0; i < n; i++)
+    {
+        cin >> a[i];
+    }
+    s.push(a[n - 1]);
+    res[n - 1] = -1;
+
+    for (int i = n - 2; i >= 0; i--)
+    {
+        if (s.top() > a[i])
+        {
+            res[i] = s.top();
+            s.push(a[i]);
+        }
+        else
+        {
+            while (!s.empty() && s.top() <= a[i])
+            {
+                s.pop();
+            }
+            s.empty() ? res[i] = -1 : res[i] = s.top();
+            s.push(a[i]);
+        }
+    }
+
+    for (int i = n - 1; i >= 0; i--)
+    {
+        if (s.top() > a[i])
+        {
+            res[i] = s.top();
+            s.push(a[i]);
+        }
+        else
+        {
+            while (!s.empty() && s.top() <= a[i])
+            {
+                s.pop();
+            }
+            s.empty() ? res[i] = -1 : res[i] = s.top();
+            s.push(a[i]);
+        }
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+        cout << res[i] << " ";
+    }
+}
