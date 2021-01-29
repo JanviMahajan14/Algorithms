@@ -11,7 +11,7 @@ public:
     Graph(int vertices)
     {
         V = vertices;
-        l = new list<int>[V];
+        l = new list<int>[V]; //arrayList
     }
 
     void addEdge(int x, int y)

@@ -7,7 +7,7 @@ class Graph
 {
 public:
     int V;
-    unordered_map<string, list<pair<string, int>>> l;
+    unordered_map<string, list<pair<string, int>>> l; //since we have char so we can't take arraylist
 
     Graph(int vertices)
     {
