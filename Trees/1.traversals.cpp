@@ -255,7 +255,7 @@ int heightoftree(node *root)
     return height;
 }
 
-// worst case complexity is O(n^2) in case of screw tree
+// worst case complexity is O(n^2) in case of screw tree for finding Level order traversal
 void printkthlevel(node *root, int k)
 {
     if (root == NULL)
@@ -493,6 +493,36 @@ int shortdis(node *root, int a, int b)
     return levela + levelb - (2 * (levellca));
 }
 
+// Check if two nodes are on same path--- LCA application
+bool lca_for_same_path(node *root, int a, int b)
+{
+    if (root == NULL)
+    {
+        return false;
+    }
+
+    if (root->data == a || root->data == b)
+    {
+        return true;
+    }
+
+    bool left = lca_for_same_path(root->left, a, b);
+    bool right = lca_for_same_path(root->right, a, b);
+    if (left && right)
+    {
+        return false;
+    }
+    if (left)
+    {
+        return true;
+    }
+    if (right)
+    {
+        return true;
+    }
+    return false; //nodes don't exist
+}
+
 int main()
 {
     node *root = buildnode();
@@ -512,7 +542,7 @@ int main()
     // inorder(root);
     // cout << endl;
     // moris_preorder(root);
-    post_one_stack(root);
+    // post_one_stack(root);
     // bfs(root);
     // cout << count(root) << endl;
     // cout << sum(root) << endl;
@@ -526,4 +556,5 @@ int main()
     // cout << lca(root, a, b)->data << endl;
 
     // cout << shortdis(root, 10, 3);
+    cout << lca_for_same_path(root, 5, 2);
 }

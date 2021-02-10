@@ -1,6 +1,7 @@
 #include <iostream>
 #include <climits>
 #include <queue>
+#include <stack>
 using namespace std;
 
 class node
@@ -182,6 +183,150 @@ bool isBST(node *root, int min = INT_MIN, int max = INT_MAX)
     return false;
 }
 
+void inorder(node *root)
+{
+    if (root == NULL)
+    {
+        return;
+    }
+
+    inorder(root->left);
+    cout << root->data;
+    inorder(root->right);
+}
+
+// merge bst and get inorder traversal of final BST in O(h1+h2)
+void merge_bst(node *r1, node *r2)
+{
+    if (r1 == NULL && r2 == NULL)
+    {
+        return;
+    }
+    else if (r1 == NULL)
+    {
+        inorder(r2);
+    }
+    else if (r2 == NULL)
+    {
+        inorder(r1);
+    }
+    else
+    {
+        stack<node *> s1;
+        stack<node *> s2;
+        while (r1 != NULL || r2 != NULL || !s1.empty() || !s2.empty())
+        {
+            if (r1 || r2)
+            {
+                if (r1)
+                {
+                    s1.push(r1);
+                    r1 = r1->left;
+                }
+                if (r2)
+                {
+                    s2.push(r2);
+                    r2 = r2->left;
+                }
+            }
+            else
+            {
+                node *top1 = !s1.empty() ? s1.top() : NULL;
+                node *top2 = !s2.empty() ? s2.top() : NULL;
+
+                if (top2 == NULL)
+                { //first OR when one stack is completely exhausted
+                    s1.pop();
+                    cout << top1->data << " ";
+                    r1 = top1->right;
+                }
+                else if (top1 == NULL)
+                {
+                    s2.pop();
+                    cout << top2->data << " ";
+                    r2 = top2->right;
+                }
+
+                else if (top1->data < top2->data)
+                {
+                    s1.pop();
+                    cout << top1->data << " ";
+                    r1 = top1->right;
+                }
+                else if (top1->data > top2->data)
+                {
+                    s2.pop();
+                    cout << top2->data << " ";
+                    r2 = top2->right;
+                }
+                else
+                {
+                    s1.pop();
+                    cout << top1->data << " ";
+                    r1 = top1->right;
+                    s2.pop();
+                    cout << top2->data << " ";
+                    r2 = top2->right;
+                }
+            }
+        }
+    }
+}
+
+class Pair
+{
+public:
+    bool isBst;
+    int size;
+    int min;
+    int max;
+};
+
+Pair largest_bst(node *root)
+{
+    Pair p;
+    if (root == NULL)
+    {
+        p.isBst = true; //null is also a bst with 0 size
+        p.size = 0;
+        p.min = INT_MAX; //Think of case when there is only left or only right
+        p.max = INT_MIN; // So pass parameters of min and max opposite
+        return p;
+    }
+
+    if (!root->left && !root->right)
+    {
+        p.isBst = true;
+        p.size = 1;
+        p.min = root->data;
+        p.max = root->data;
+        return p;
+    }
+
+    Pair left = largest_bst(root->left);
+    Pair right = largest_bst(root->right);
+
+    Pair res;
+
+    if (left.isBst && right.isBst)
+    {
+        if (root->data > left.max && root->data < right.min)
+        {
+            res.isBst = true;
+            res.size = left.size + right.size + 1;
+            res.min = root->left ? left.min : root->data;   //special case when root->left doesn't exist
+            res.max = root->right ? right.max : root->data; //special case when root->right doesn't exist
+            return res;
+        }
+    }
+
+    res.isBst = false;
+    res.min = left.min;
+    res.max = right.max;
+    res.size = max(left.size, right.size);
+    return res;
+}
+
 class LinkedList
 {
 public:
@@ -195,53 +340,8 @@ public:
     }
 };
 
-LinkedList flattenBST(node *root)
-{
-    LinkedList l;
-    if (root == NULL)
-    {
-        l.head = l.tail = NULL;
-        return l;
-    }
-
-    LinkedList left = flattenBST(root->left);
-    LinkedList right = flattenBST(root->right);
-
-    // got no ll from left and right
-    if (left.head == NULL && right.head == NULL)
-    {
-        l.head = l.tail = root;
-        return l;
-    }
-
-    // got a linked list from right but not from left
-    if (left.head == NULL && right.head != NULL)
-    {
-        root->right = right.head;
-        l.head = root;
-        l.tail = right.tail;
-        return l;
-    }
-
-    // got a ll from left but no from right
-    if (left.head != NULL && right.head == NULL)
-    {
-        left.tail->right = root;
-        l.head = left.head;
-        l.tail = root;
-        return l;
-    }
-
-    // got a ll from both left and right
-    if (left.head != NULL && right.head != NULL)
-    {
-        left.tail->right = root;
-        root->right = right.head;
-        l.head = left.head;
-        l.tail = right.tail;
-        return l;
-    }
-}
+// Follow gfg----- ^-^
+//LinkedList flattenBST(node *root)
 
 int main()
 {
@@ -263,13 +363,6 @@ int main()
     // bfs(root);
 
     // cout << "check bst " << isBST(root);
-
-    node *head = flattenBST(root).head;
-    while (head != NULL)
-    {
-        cout << head->data << "->";
-        head = head->right;
-    }
 
     // cout << numOfBST(2);
 }
