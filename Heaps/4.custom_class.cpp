@@ -32,7 +32,7 @@ public:
     //class that needs to be passed as a comparator to the priority_queue
     bool operator()(Person A, Person B)
     {
-        return A.age < B.age;
+        return A.age < B.age; //for max heap
     }
 };
 
@@ -42,6 +42,7 @@ int main()
     // fun f;
     // f("c++");
 
+    // in this case pq doesn't know how to compare so we will pass a comparator class
     priority_queue<Person, vector<Person>, PersonCompare> pq;
     int n;
     cin >> n;

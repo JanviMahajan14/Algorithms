@@ -21,7 +21,7 @@ public:
     {
         if (next != NULL)
         {
-            delete next; //will delete the whole remaining list
+            delete next; //will delete the whole remaining list recursively
         }
     }
 };
@@ -41,22 +41,27 @@ class Hashmap
         {
             res = res + (key[i] * p) % total_size;
             res = res % total_size;
-            p = (p * 27) % total_size;
+            p = (p * 27) % total_size; //otherwise overflow
         }
         return res;
     }
 
     void rehash()
     {
-        Node<T> **old_table = table;
         int old_table_size = total_size;
         total_size = 2 * total_size; //we can also find next nearest ts
+        Node<T> **old_table = new Node<T> *[total_size];
+        curr_size = 0; //it's very imp because now we have to insert all elements again
+
+        for (int i = 0; i < old_table_size; i++)
+        {
+            old_table[i] = table[i];
+        }
 
         for (int i = 0; i < total_size; i++)
         {
             table[i] = NULL;
         }
-        curr_size = 0;
 
         for (int i = 0; i < old_table_size; i++)
         {
@@ -66,11 +71,8 @@ class Hashmap
                 insert(temp->key, temp->value);
                 temp = temp->next;
             }
-            if (old_table[i] != NULL)
-            {
-                delete old_table;
-            }
         }
+
         delete[] old_table;
     }
 
@@ -96,15 +98,15 @@ public:
         curr_size++;
 
         float load_factor = (float)curr_size / total_size;
-        // if (load_factor > 0.7)
-        // {
-        //     rehash();
-        // }
+        if (load_factor > 0.7)
+        {
+            rehash();
+        }
     }
 
     void print()
     {
-        for (int i = 0; i < curr_size; i++)
+        for (int i = 0; i < total_size; i++)
         {
             cout << "index " << i << " ";
             Node<T> *temp = table[i];

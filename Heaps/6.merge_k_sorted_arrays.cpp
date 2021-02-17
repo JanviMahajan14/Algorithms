@@ -33,7 +33,7 @@ vector<int> merge_K_sorted_array(vector<vector<int>> arr)
     priority_queue<node, vector<node>, Nodecompare> pq;
     vector<int> result;
 
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < arr.size(); i++)
     {
         node element(arr[i][0], i, 0);
         pq.push(element); //push the first element of all arrays
@@ -47,10 +47,11 @@ vector<int> merge_K_sorted_array(vector<vector<int>> arr)
 
         result.push_back(element.value);
         pq.pop();
+        y++;
 
-        if (y + 1 < arr[x].size())
+        if (y < arr[x].size())
         {
-            node new_element(arr[x][y + 1], x, y + 1);
+            node new_element(arr[x][y], x, y);
             pq.push(new_element);
         }
     }
