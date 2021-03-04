@@ -23,11 +23,31 @@ public:
         l[y].push_back(x);
     }
 
+    bool iscyclic(int src, int *visited, int *parent)
+    {
+        visited[src] = true;
+
+        for (auto nbr : l[src])
+        {
+            if (visited[nbr] && parent[src] != nbr)
+            {
+                return true;
+            }
+
+            if (!visited[nbr])
+            {
+                parent[nbr] = src;
+                return iscyclic(nbr, visited, parent);
+            }
+        }
+        return false;
+    }
+
     bool check_is_tree(int src)
     {
+
         int *visited = new int[V];
         int *parent = new int[V];
-        queue<int> q;
 
         // Initially no node is visited and parent of each node is node itseff;
         for (int i = 0; i < V; i++)
@@ -36,28 +56,19 @@ public:
             visited[i] = false;
         }
 
-        q.push(src);
-        visited[src] = true;
-
-        while (!q.empty())
+        if (iscyclic(src, visited, parent))
         {
-            int node = q.front();
-            q.pop();
+            return false;
+        }
 
-            for (auto nbr : l[node])
+        for (int i = 0; i < V; i++) //check if all components are connected
+        {
+            if (!visited[i])
             {
-                if (visited[nbr] == true && parent[node] != nbr)
-                {
-                    return false;
-                }
-                else if (!visited[nbr])
-                {
-                    q.push(nbr);
-                    visited[nbr] = true;
-                    parent[nbr] = node;
-                }
+                return false;
             }
         }
+
         return true;
     }
 };
@@ -68,7 +79,7 @@ int main()
     g.addEdge(0, 1);
     g.addEdge(3, 2);
     g.addEdge(1, 2);
-    // g.addEdge(0, 3);
+    g.addEdge(0, 3);
 
     cout << g.check_is_tree(0);
 }

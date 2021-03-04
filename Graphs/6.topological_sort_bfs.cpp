@@ -23,12 +23,7 @@ public:
 
     void topological_sort()
     {
-        int indegree[V];
-
-        for (auto x : l)
-        {
-            indegree[x.first] = 0;
-        }
+        int indegree[V] = {0};
 
         for (int i = 0; i < V; i++)
         {
