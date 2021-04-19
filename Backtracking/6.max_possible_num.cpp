@@ -2,3 +2,4 @@
 // Approach-1
 // Find all the permuataions and check if a given permuatation has atmost k swaps
 // https: //www.geeksforgeeks.org/find-maximum-number-possible-by-doing-at-most-k-swaps/
+// https: //www.geeksforgeeks.org/find-next-greater-number-set-digits/

@@ -1,33 +1,41 @@
 #include <iostream>
-#include <bits/stdc++.h> 
+#include <bits/stdc++.h>
 using namespace std;
 
 // Passing fn as a parameter to another fn
-bool compare(long long int a , long long int b){
+bool compare(long long int a, long long int b)
+{
     return a < b;
 }
 
-void bubble_sort(long long int a[], int n, bool(&cmp)(long long int a, long long int b)){
-    for(int i=n-1; i>=0; i--){
-        for(int j=0; j<=i-1; j++){
-            if(cmp(a[j], a[j+1])){
+void bubble_sort(long long int a[], int n, bool (&cmp)(long long int a, long long int b))
+{
+    for (int i = n - 1; i >= 0; i--)
+    {
+        for (int j = 0; j < i; j++)
+        {
+            if (a[j] > a[i])
+            {
                 int t = a[j];
-                a[j] = a[j+1];
-                a[j+1] = t;
+                a[j] = a[i];
+                a[i] = t;
             }
         }
     }
-    for(int i=0; i<n; i++){
-        cout << a[i] << " " ;
+    for (int i = 0; i < n; i++)
+    {
+        cout << a[i] << " ";
     }
 }
 
-int main(){
+int main()
+{
     int n;
     cin >> n;
     long long int a[n];
-    for(int i=0; i<n; i++){
+    for (int i = 0; i < n; i++)
+    {
         cin >> a[i];
     }
-    bubble_sort(a,n, compare);
+    bubble_sort(a, n, compare);
 }

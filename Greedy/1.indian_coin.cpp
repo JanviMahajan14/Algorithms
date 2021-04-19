@@ -10,7 +10,7 @@ void find_ans(int coins[], int n, int money)
         cout << coins[idx] << " ";
         money = money - coins[idx];
     }
-    //complexity: O(nlogn)
+    //complexity: O(money*logn)
 }
 
 int main()
