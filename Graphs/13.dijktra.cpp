@@ -53,6 +53,8 @@ public:
             pair<int, string> p = *(s.begin());
             string src = p.second;
             int dist = p.first;
+            //in case we have to find min distance of target node then break the
+            //loop when target==*s.begin() because it is min distance from src.
 
             // erase the first node in the set because this distance is finalised
             s.erase(s.begin());

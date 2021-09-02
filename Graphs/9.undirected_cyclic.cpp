@@ -46,6 +46,28 @@ public:
         return false;
     }
 
+    bool isBipartite(int src, vector<int> &colored)
+    {
+        for (auto nbr : l[src])
+        {
+            if (colored[nbr] == -1)
+            {
+                colored[nbr] = 1 - colored[src];
+                bool ans = isBipartite(nbr, colored);
+                if (ans == false)
+                {
+                    return false;
+                }
+            }
+            else if (colored[nbr] == colored[src])
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     bool check_cyclic(int src)
     {
         bool *visited = new bool[V];
@@ -72,4 +94,11 @@ int main()
     g.addEdge(5, 6);
     // g.addEdge(4, 2);
     cout << g.check_cyclic(0);
+
+    vector<int> colored;
+    for (int i = 0; i < 7; i++)
+    {
+        colored.push_back(-1); // initially colored with -1
+    }
+    colored[0] = 0;
 }

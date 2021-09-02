@@ -37,7 +37,8 @@ public:
             if (!visited[nbr])
             {
                 parent[nbr] = src;
-                return iscyclic(nbr, visited, parent);
+                if (iscyclic(nbr, visited, parent))
+                    return true;
             }
         }
         return false;

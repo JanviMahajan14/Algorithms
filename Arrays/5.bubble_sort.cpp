@@ -14,11 +14,9 @@ void bubble_sort(long long int a[], int n, bool (&cmp)(long long int a, long lon
     {
         for (int j = 0; j < i; j++)
         {
-            if (a[j] > a[i])
+            if (a[j] > a[j + 1])
             {
-                int t = a[j];
-                a[j] = a[i];
-                a[i] = t;
+                swap(a[j], a[j + 1]);
             }
         }
     }

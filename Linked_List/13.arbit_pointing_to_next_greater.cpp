@@ -42,7 +42,7 @@ node *mid_point(node *head)
         return head;
     }
 
-    node *fast = head;
+    node *fast = head->arb;
     node *slow = head;
 
     while (fast != NULL && fast->arb != NULL)

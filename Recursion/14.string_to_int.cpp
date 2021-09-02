@@ -14,10 +14,25 @@ int string_to_int(string n, int len)
     // value from the base case;
 }
 
+int string_to_int(string n, int i, int &p)
+{
+    if (i == n.length())
+    {
+        return 0;
+    }
+
+    int ans = string_to_int(n, i + 1, p);
+    int sum = ans + (n[i] - '0') * p;
+    p = p * 10;
+    return sum;
+}
+
 int main()
 {
     string n;
     cin >> n;
-    cout << string_to_int(n, n.length()) << endl;
-    cout << string_to_int(n, n.length()) + 1;
+    // cout << string_to_int(n, n.length()) << endl;
+    // cout << string_to_int(n, n.length()) + 1;
+    int p = 1;
+    cout << string_to_int(n, 0, p);
 }

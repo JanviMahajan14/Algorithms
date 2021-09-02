@@ -40,7 +40,7 @@ public:
                 if (!visited[nbr])
                 {
                     q.push(nbr);
-                    visited[nbr] = true;
+                    visited[nbr] = true; //IMPORTANT
                 }
             }
         }

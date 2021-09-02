@@ -25,10 +25,10 @@ public:
 
     void print()
     {
-        for (auto it : l)
+        for (auto it = l.begin(); it != l.end(); it++)
         {
-            cout << it.first << "->";
-            for (auto x : it.second)
+            cout << it->first << "->";
+            for (auto x : l[it->first])
             {
                 cout << "(" << x.first << "," << x.second << ") ";
             }
